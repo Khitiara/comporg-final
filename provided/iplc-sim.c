@@ -147,7 +147,7 @@ void iplc_sim_init(int index, int blocksize, int assoc)
     
     cache_blockoffsetbits =
     (int) rint((log( (double) (blocksize * 4) )/ log(2)));
-    /* Note: rint function rounds the result up prior to casting */
+    /* Note: rint function rounds the result prior to casting */
     
     cache_size = assoc * ( 1 << index ) * ((32 * blocksize) + 33 - index - cache_blockoffsetbits);
     
@@ -163,7 +163,7 @@ void iplc_sim_init(int index, int blocksize, int assoc)
         exit(-1);
     }
     
-    cache = (cache_line_t *) malloc((sizeof(cache_line_t) * 1<<index));
+    cache = (cache_line_t *) malloc((sizeof(cache_line_t) * (1<<index)));
     
     // Dynamically create our cache based on the information the user entered
     for (i = 0; i < (1<<index); i++) {
@@ -371,6 +371,7 @@ void iplc_sim_process_pipeline_nop()
  */
 unsigned int iplc_sim_parse_reg(char *reg_str)
 {
+    /*
     int i;
     // turn comma into \n
     if (reg_str[strlen(reg_str)-1] == ',')
@@ -385,6 +386,10 @@ unsigned int iplc_sim_parse_reg(char *reg_str)
         
         return atoi(reg_str);
     }
+    */
+    
+    //equivalent to the above
+    return atoi(reg_str + (reg_str[0] == '$'));
 }
 
 /*
