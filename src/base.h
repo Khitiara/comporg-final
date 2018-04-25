@@ -10,6 +10,9 @@
 #define MAX_STAGES 5
 
 void iplc_sim_init(int index, int blocksize, int assoc);
+void iplc_sim_parse_instruction(char *buffer);
+void iplc_sim_dump_pipeline();
+unsigned int iplc_sim_parse_reg(char *reg_str);
 
 // Outout performance results
 void iplc_sim_finalize();
