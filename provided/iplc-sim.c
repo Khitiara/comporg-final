@@ -163,7 +163,7 @@ void iplc_sim_init(int index, int blocksize, int assoc)
         exit(-1);
     }
     
-    cache = (cache_line_t *) malloc((sizeof(cache_line_t) * (1<<index)));
+    cache = (cache_line_t *) malloc((sizeof(cache_line_t) * 1<<index));
     
     // Dynamically create our cache based on the information the user entered
     for (i = 0; i < (1<<index); i++) {
