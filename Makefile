@@ -16,4 +16,4 @@ configure:
 	mkdir -p $(OUT)
 
 clean:
-	find $(OUT)
+	find $(OUT)/ -mindepth 1 -type f | xargs rm
