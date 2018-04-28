@@ -1,15 +1,19 @@
-CFLAGS = -Wall -g
+CFLAGS = -Wall -g -lm
 CC = clang
 OUT = dist
+EXE = comporg-final
+
+sources = src/base.c src/coder1.c src/coder2.c src/coder3.c
 
 out:
-	$(MAKE) -B impl1 impl2 impl3
+	$(CC) $(CFLAGS) -o $(OUT)/$(EXE) $(sources)
 
-impl%:
-	$(CC) $(CFLAGS) -o $(OUT)/$@ $@/*.c
+# Silence all warnings and redirect stderr to stdout to make it easier to analyze errors
+err:
+	$(CC) $(CFLAGS) -o $(OUT)/$(EXE) $(sources) -Wno-everything 2>&1
 
 configure:
 	mkdir -p $(OUT)
 
 clean:
-	rm $(OUT)/*
+	find $(OUT)/ -mindepth 1 -type f | xargs rm
