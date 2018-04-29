@@ -33,8 +33,10 @@ void iplc_sim_push_pipeline_stage()
         } else {
             //predictor is incorrect
             //refetching takes an extra cycle
+            printf("Branch predict incorrect\n");
             pipeline_cycles++;
         }
+        branch_count++;
     }
     
     /* 3. Check for LW delays due to use in ALU stage and if data hit/miss
@@ -73,12 +75,15 @@ void iplc_sim_push_pipeline_stage()
             default:
                 ;
         }
-        if(inserted_nop)
+        if(inserted_nop) {
+            printf("Load-use stall for use in %d\n", pipeline[ALU].itype);
             pipeline_cycles++;
+        }
         //now we need to check the data address we fetched and see if
         //it was in the cache. If not, we must stall.
         if(!iplc_sim_trap_address(inst.data_address)) {
             //stall while data is fetched. Subtract 1 because we increment at the end.
+            printf("DATA MISS: Address %x\n", inst.data_address);
             pipeline_cycles += CACHE_MISS_DELAY - 1;
         }
     }
@@ -90,6 +95,7 @@ void iplc_sim_push_pipeline_stage()
         unsigned dataAddr = pipeline[MEM].stage.sw.data_address;
         if(!iplc_sim_trap_address(dataAddr)) {
             //stall while data is fetched
+            printf("DATA MISS: Address %x\n", dataAddr);
             pipeline_cycles += CACHE_MISS_DELAY - 1;
         }
     }
