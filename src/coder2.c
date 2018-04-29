@@ -82,7 +82,9 @@ void iplc_sim_push_pipeline_stage()
         //now we need to check the data address we fetched and see if
         //it was in the cache. If not, we must stall.
         if(!iplc_sim_trap_address(inst.data_address)) {
-            //stall while data is fetched. Subtract 1 because we increment at the end.
+            //stall while data is fetched.
+            //Debatable if delaying for 9 cycles is correct,
+            //but that's what is in the sample output.
             printf("DATA MISS: Address %x\n", inst.data_address);
             pipeline_cycles += CACHE_MISS_DELAY - 1;
         }
