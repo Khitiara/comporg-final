@@ -39,11 +39,10 @@ void iplc_sim_finalize();
 
 typedef struct cache_line
 {
-    // Your data structures for implementing your cache should include:
-    // a valid bit
-    // a tag
-    // a method for handling varying levels of associativity
-    // a method for selecting which item in the cache is going to be replaced
+    int *valid_bit;
+    int *tag;
+    int assoc;
+    int *replace;
 } cache_line_t;
 
 cache_line_t *cache=NULL;
@@ -294,6 +293,17 @@ void iplc_sim_push_pipeline_stage()
     /* 2. Check for BRANCH and correct/incorrect Branch Prediction */
     if (pipeline[DECODE].itype == BRANCH) {
         int branch_taken = 0;
+        branch_count++;
+
+        if(pipeline[FETCH].instruction_address >
+            (pipeline[DECODE].instruction_address + 4)){
+            branch_taken = 1;
+        }
+        if(branch_predict_taken == branch_taken){
+            correct_branch_predictions++;
+        }else{
+            nopes++;
+        }
     }
     
     /* 3. Check for LW delays due to use in ALU stage and if data hit/miss
@@ -388,7 +398,7 @@ void iplc_sim_process_pipeline_syscall()
 void iplc_sim_process_pipeline_nop()
 {
     iplc_sim_push_pipeline_stage();
-    
+
     pipeline[FETCH].itype = NOP;
     pipeline[FETCH].instruction_address = 0;
 }

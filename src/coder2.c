@@ -27,14 +27,19 @@ void iplc_sim_push_pipeline_stage()
         //if the fetched instruction is not the next one in sequence
         //the branch was taken
         int branch_taken = (nextAddr != (ourAddr + 4));
-        if(branch_taken == branch_predict_taken) {
-            //predictor is correct
-            correct_branch_predictions++;
-        } else {
-            //predictor is incorrect
-            //refetching takes an extra cycle
-            printf("Branch predict incorrect\n");
-            pipeline_cycles++;
+        //if we already stalled due to instruction fetch, it doesn't matter
+        if(nextAddr != 0) {
+            if(branch_taken == branch_predict_taken) {
+                //predictor is correct
+                printf("Branch predict correct (address %x -> %x)\n", ourAddr, nextAddr);
+                correct_branch_predictions++;
+            } else {
+                //predictor is incorrect
+                //refetching takes an extra cycle
+                printf("Branch predict incorrect (address %x -> %x): predict %d, actual %d\n",
+                    ourAddr, nextAddr, branch_predict_taken, branch_taken);
+                pipeline_cycles++;
+            }
         }
         branch_count++;
     }
