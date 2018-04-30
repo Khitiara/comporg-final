@@ -4,6 +4,7 @@
 #define BASE_H
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #define MAX_CACHE_SIZE 10240
 #define CACHE_MISS_DELAY 10 // 10 cycle cache miss penalty

@@ -44,7 +44,7 @@ void iplc_sim_LRU_update_on_hit(int index, int assoc_entry)
  */
 int iplc_sim_trap_address(unsigned int address)
 {
-    int i = 0
+    int i = 0;
     int index = 0;
     int tag = 0;
     int hit = 0;
@@ -52,12 +52,12 @@ int iplc_sim_trap_address(unsigned int address)
     unsigned int filter;
 
     // find index in address
-    filter = (1 << (cache_blockoffsetbits + cache_index))--;
+    filter = (1 << (cache_blockoffsetbits + cache_index))-1;
     index = address & filter;
     index = index >> cache_blockoffsetbits;
 
     // find tag in address
-    filter = (1 << (cache_blockoffsetbits + cache_index + cache_assoc + 16))--;
+    filter = (1 << (cache_blockoffsetbits + cache_index + cache_assoc + 16))-1;
     tag = address & filter;
     tag = tag >> (cache_blockoffsetbits + cache_index);
 
