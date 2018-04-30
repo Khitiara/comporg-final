@@ -1,6 +1,7 @@
 #include "base.h"
-
+#include <math.h>
 #include <stdio.h>
+#include <string.h>
 #include "coder1.h"
 #include "coder2.h"
 #include "coder3.h"
@@ -37,7 +38,7 @@ unsigned int dump_pipeline=1;
  */
 void iplc_sim_init(int index, int blocksize, int assoc)
 {
-    int i=0, j=0;
+    int i=0;
     unsigned long cache_size = 0;
     cache_index = index;
     cache_blocksize = blocksize;
@@ -62,10 +63,14 @@ void iplc_sim_init(int index, int blocksize, int assoc)
         exit(-1);
     }
     
-    cache = (cache_line_t *) malloc((sizeof(cache_line_t) * 1<<index));
+    cache = (cache_line_t *) malloc((sizeof(cache_line_t) << index));
     
     // Dynamically create our cache based on the information the user entered
     for (i = 0; i < (1<<index); i++) {
+        cache[i].valid_bit = malloc(sizeof(int) * assoc);
+        cache[i].tag = malloc(sizeof(int) * assoc);
+        cache[i].assoc = assoc;
+        cache[i].replace = malloc(sizeof(int) * assoc);
     }
     
     // init the pipeline -- set all data to zero and instructions to NOP
