@@ -11,6 +11,7 @@ void iplc_sim_process_pipeline_rtype(char *instruction, int dest_reg, int reg1, 
 {
     /* This is an example of what you need to do for the rest */
     // assign vals to instruction specific vars();
+    iplc_sim_push_pipeline_stage();
     
     // assign vals to itype + instruction_address
     pipeline[FETCH].itype = RTYPE; 
