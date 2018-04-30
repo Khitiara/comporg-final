@@ -1,0 +1,1 @@
+provided/instruction-trace.txt 6 1 2 0
